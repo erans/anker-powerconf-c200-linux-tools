@@ -1,0 +1,10 @@
+build/
+dist/
+captures/
+extracted/
+scratch/
+tools/
+AnkerWork_Installer_Official.exe
+AnkerWork_Official.dmg
+*.core
+core

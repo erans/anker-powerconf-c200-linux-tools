@@ -1,0 +1,55 @@
+name: Create Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Semver tag to create, for example v0.1.0"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ensure release token is configured
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          if [[ -z "${RELEASE_TOKEN}" ]]; then
+            echo "RELEASE_TOKEN secret is required. Use a PAT or GitHub App token that can push tags and trigger the release workflow." >&2
+            exit 1
+          fi
+
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: Validate version format
+        run: |
+          case "${{ inputs.version }}" in
+            v[0-9]*.[0-9]*.[0-9]* ) ;;
+            * )
+              echo "version must look like v0.1.0" >&2
+              exit 1
+              ;;
+          esac
+
+      - name: Create and push tag
+        env:
+          TAG_NAME: ${{ inputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rev-parse "${TAG_NAME}" >/dev/null 2>&1 && {
+            echo "tag ${TAG_NAME} already exists" >&2
+            exit 1
+          }
+          git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME}"
+          git push origin "${TAG_NAME}"
