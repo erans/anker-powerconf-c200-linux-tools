@@ -74,6 +74,14 @@ Other confirmed vendor selectors currently wired into the CLI:
 - `0x12`: `anti_flicker`
 - `0x13`: `hdr`
 
+## Releases
+
+Prebuilt binaries are published on the GitHub Releases page:
+
+- `https://github.com/erans/anker-powerconf-c200-linux-tools/releases`
+
+Download the release tarball for your architecture if you do not want to build from source.
+
 ## Build
 
 ```sh
