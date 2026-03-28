@@ -78,7 +78,7 @@ Other confirmed vendor selectors currently wired into the CLI:
 
 Prebuilt binaries are published on the GitHub Releases page:
 
-- `https://github.com/erans/anker-powerconf-c200-linux-tools/releases`
+- [GitHub Releases](https://github.com/erans/anker-powerconf-c200-linux-tools/releases)
 
 Download the release tarball for your architecture if you do not want to build from source.
 
